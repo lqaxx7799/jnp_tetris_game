@@ -42,7 +42,7 @@ class Arena
 
     sweep()
     {
-        let rowCount = 1;
+        let rowCount = 0;
         let score = 0;
         outer: for (let y = this.matrix.length - 1; y > 0; --y) {
             for (let x = 0; x < this.matrix[y].length; ++x) {
@@ -55,8 +55,13 @@ class Arena
             this.matrix.unshift(row);
             ++y;
 
-            score += rowCount * 10;
-            rowCount *= 2;
+            rowCount += 1;
+        }
+        if(rowCount === 1)
+            score = 1000;
+        else{
+            const x = rowCount*1000;
+            score =  (x + (x*(rowCount/10)));
         }
         return score;
     }

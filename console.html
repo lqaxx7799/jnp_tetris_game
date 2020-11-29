@@ -3,6 +3,38 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style>
+	body {
+			background: #000;
+			display: flex;
+			flex-direction: column;
+			color: #fff;
+			font-family: sans-serif;
+			font-size: 2em;
+			text-align: center;
+		}
+
+		.button {
+			width: 80px;
+			height: 80px;
+			margin: 20px;
+			border: none;
+			outline: none;
+			background-color: #5d93c9;
+			display: inline-block;
+		}
+		.button:hover {
+			background-color: #416991;
+		}
+		.button:active {
+			background-color: #214b75;
+		}
+		.button > img {
+			width: 20px;
+    	height: 20px;
+		}
+
+</style>
 </head>
 <body>
 	<h1>Console</h1>
@@ -15,14 +47,30 @@
 		<div>Waiting other player to join</div>
 		<button id="btnQuitWaiting">Quit</button>
 	</div>
-	<div id="consoleScreen">
-		<button id="btnLeft">Left</button>
-		<button id="btnRight">Right</button>
-		<button id="btnDown">Down</button>
-		<button id="btnRotate">Rotate</button>
-		<button id="btnPause">Pause</button>
-		<button id="btnResume" style="display: none">Resume</button>
-		<button id="btnQuit">Quit</button>
+	<div id="consoleScreen" style="display: flex; justify-content: center;">
+		<div style="width: 330px;">
+			<div style="display: flex; justify-content: center;">
+				<button class="button" id="btnRotate">
+					<img src="rotate.png" />
+				</button>
+			</div>
+			<div style="display: flex; justify-content: center;">
+				<button class="button" id="btnLeft">
+					<img src="left.png" />
+				</button>
+				<button class="button" id="btnDown">
+					<img src="down.png" />
+				</button>
+				<button class="button" id="btnRight">
+					<img src="right.png" />
+				</button>
+			</div>
+			<div style="display: flex; justify-content: center; margin-top: 40px;">
+				<button class="button" id="btnPause">Pause</button>
+				<button class="button" id="btnResume" style="display: none">Resume</button>
+				<button class="button" id="btnQuit">Quit</button>
+			</div>
+		</div>
 	</div>
 	<div id="endScreen">
 		You lost. Your score is <span id="scoreText"></span>

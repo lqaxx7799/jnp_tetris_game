@@ -1,3 +1,4 @@
+
 function createPiece(type) {
     if (type === 'T') {
         return [
@@ -52,28 +53,38 @@ function getRandomString(length) {
      return result;
     }
 
-const pieces = getRandomString(1000);
-
-const tetri = [];
-
-const playerElements = document.querySelectorAll('.player');
-[...playerElements].forEach(element => {
-    const tetris = new Tetris(element);
-    tetri.push(tetris);
-});
+var pieces = null;
+var tetri = [];
 
 const button = document.getElementById('start_game');
-button.disabled = true;
+button.disabled = false;
 
 button.addEventListener('click', function(){
-    if(tetri[0].player.over && tetri[1].player.over){
-        location.reload();
-        return false;
-    }
-    else
-        button.disabled = true;    
-
+    pieces = getRandomString(1000);
+    button.disabled = true;
+    document.getElementById('messageBlock').innerHTML = null;
+    tetri = [];
+    const playerElements = document.querySelectorAll('.player');
+    [...playerElements].forEach(element => {
+        const tetris = new Tetris(element);
+        tetri.push(tetris);
+    });
+    document.addEventListener('gameOver', Result);
+    document.addEventListener('keydown', keyListener);
+    document.addEventListener('keyup', keyListener);
 });
+
+const Result = (event) => {
+        if(tetri[0].player.over && tetri[1].player.over){
+            button.disabled=false;
+            if(tetri[0].player.score > tetri[1].player.score)
+                document.getElementById('messageBlock').innerHTML = 'Winner: Player 1';
+            else if(tetri[1].player.score > tetri[0].player.score)
+               document.getElementById('messageBlock').innerHTML = 'Winner: Player 2'; 
+            else
+               document.getElementById('messageBlock').innerHTML = 'Draw';  
+        }
+    };
 
 const keyListener = (event) => {
     [
@@ -81,6 +92,8 @@ const keyListener = (event) => {
         [37, 39, 38, 40],
     ].forEach((key, index) => {
         const player = tetri[index].player;
+        if(player.paused && event.keyCode !== 80)
+            return;
         if (event.type === 'keydown') {
             if (event.keyCode === key[0]) {
                 player.move(-1);
@@ -88,6 +101,8 @@ const keyListener = (event) => {
                 player.move(1);
             } else if (event.keyCode === key[2]) {
                 player.rotate(1);
+            } else if(event.keyCode === 80){
+                player.pause();
             }
         }
 
@@ -103,17 +118,3 @@ const keyListener = (event) => {
         }
     });
 };
-
-
-document.addEventListener('keydown', keyListener);
-document.addEventListener('keyup', keyListener);
-
-document.addEventListener('keydown', function(e) {
-    var key = e.keyCode;
-    if(key === 80){
-        tetri[0].player.pause();
-        tetri[1].player.pause();
-    }
-});
-
-

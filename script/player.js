@@ -8,12 +8,12 @@ class Player
         this.req;
         this.tetris = tetris;
         this.arena = tetris.arena;
-        this.pieces = pieces;
         this.index = 0;
         this.dropCounter = 0;
         this.dropInterval = this.DROP_SLOW;
         this.pos = {x: 0, y: 0};
         this.matrix = null;
+        this.matrixNext = null;
         this.score = 0;
         this.reset();
         this.paused = false;
@@ -44,7 +44,8 @@ class Player
 
     reset()
     {
-        this.matrix = createPiece(this.pieces[this.index]);
+        this.matrix = createPiece(pieces[this.index]);
+        this.matrixNext = createPiece(pieces[this.index + 1]);
         this.pos.y = 0;
         this.pos.x = (this.arena.matrix[0].length / 2 | 0) -
                      (this.matrix[0].length / 2 | 0);
@@ -53,7 +54,8 @@ class Player
             // this.score = 0;
             // this.tetris.updateScore();
             this.over = true;
-            // this.tetris.gameOver();
+            const event = new Event('gameOver');
+            document.dispatchEvent(event);
             return;
         }
     }
@@ -113,11 +115,4 @@ class Player
             this.paused = false;
         }
     }
-
-    // reStart(){
-    //     this.over = false;
-    //     this.score = 0;
-    //     this.tetris.updateScore(0);
-    //     this.arena.clear();
-    // }   
 }
